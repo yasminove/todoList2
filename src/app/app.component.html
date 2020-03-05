@@ -1,0 +1,9 @@
+<div id="myDIV" class="header">
+  <h2 style="margin:5px">My To Do List</h2>
+  <input type="text" id="myInput" placeholder="Title..." [(ngModel)]="todo" (keyup.enter)="add(todo)">
+  <span onclick="newElement()" class="addBtn" (click)="add(todo)">Add</span>
+</div>
+
+<ul id="myUL">
+<li (click)="check(todo.id)" [class.checked]="todo.isDone" *ngFor="let todo of todos">{{todo.name}} <span class="close" (click)="remove(todo.id)">x</span></li>
+</ul>
