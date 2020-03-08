@@ -5,5 +5,5 @@
 </div>
 
 <ul id="myUL">
-<li (click)="check(todo.id)" [class.checked]="todo.isDone" *ngFor="let todo of todos">{{todo.name}} <span class="close" (click)="remove(todo.id)">x</span></li>
+<li (click)="check(todo.id, i)" [class.checked]="todo.isDone" *ngFor="let todo of todos, index as i">{{todo.name}} <span class="close" (click)="remove(todo.id,i)">x</span></li>
 </ul>
