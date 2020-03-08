@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { catchError } from 'rxjs/operators';
+import { catchError, takeLast } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ export class AppComponent {
 
    todos = []
    todo;
-
+   url = 'https://jsonplaceholder.typicode.com/todos/';
   add(todo){
 
     let id = this.todos.length;
@@ -26,7 +26,7 @@ export class AppComponent {
      this.http.post('https://jsonplaceholder.typicode.com/todos/', {id:++id, name: this.todo, isDone: false}).subscribe(data => this.todos.push(data))
     this.todo = '';
   }
-  remove(id){
+  remove(id, i){
     // this.todos = this.todos.filter(function(el){
     //   return el.id !== id;
     // })
@@ -34,26 +34,26 @@ export class AppComponent {
     console.log(id);
     console.log(`https://jsonplaceholder.typicode.com/todos/${id}`);
     
-    
-    this.http.delete(`https://jsonplaceholder.typicode.com/todos/${id}`).subscribe()
+    this.http.delete(`https://jsonplaceholder.typicode.com/todos/${id}`).subscribe(()=> {
+      this.todos.splice(i, 1)
+    })
 
 }
-//  remove((id=> {
-//     this.http.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-//   })).subscribe()
 
 
-  // check(id){
-  //   // console.log('hi');
-  //   // console.log(id);
+  check(id, i){
+    // console.log('hi');
+    // console.log(id);
+   
 
-  //   // for(const todo of this.todos){
-  //   //   console.log(todo.id);
+    for(const todo of this.todos){
+      console.log(todo.id);
 
-  //   //   if(todo.id == id){
-  //   //     todo.isDone = !todo.isDone
-  //   //   }
-  //   // }
-  // }
+      if(todo.id == id){
+       let changed = todo.isDone = !todo.isDone
+       this.http.put(`${this.url}/${id}`,{id:id, name: this.todo, isDone: changed})
+      }
+    }
+  }
 
 }
